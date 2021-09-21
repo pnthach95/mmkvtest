@@ -5618,10 +5618,9 @@ react-native-codegen@^0.0.7:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
-react-native-mmkv-storage@0.6.3:
+"react-native-mmkv-storage@https://github.com/ammarahm-ed/react-native-mmkv-storage.git":
   version "0.6.3"
-  resolved "https://registry.yarnpkg.com/react-native-mmkv-storage/-/react-native-mmkv-storage-0.6.3.tgz#86ad5e8c33b55209027b516275988dee8b0b5f2f"
-  integrity sha512-v8RfSg8HQTAq/kCXdRY0OPFmH6tCN/SSs3eR4PHTZ4DgZNmGgdaRPHg5ITLxTEyawrbvQUNUoiEyfS/SZEhxxA==
+  resolved "https://github.com/ammarahm-ed/react-native-mmkv-storage.git#9ab4c6a5d873da539b2ebb0dcde6b5cefafee4fa"
 
 react-native@0.65.1:
   version "0.65.1"
