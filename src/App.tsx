@@ -20,6 +20,16 @@ import useStorage, {
   getString,
   getStringAsync,
   remove,
+  setArray,
+  setArrayAsync,
+  setBool,
+  setBoolAsync,
+  setNumber,
+  setNumberAsync,
+  setObject,
+  setObjectAsync,
+  setString,
+  setStringAsync,
 } from './useMMKV';
 
 const KEYS = {
@@ -31,11 +41,11 @@ const KEYS = {
 };
 
 const App = (): JSX.Element => {
-  const [bool, setBool] = useStorage<boolean>(KEYS.BOOL);
-  const [str, setStr] = useStorage<string>(KEYS.STRING);
-  const [num, setNum] = useStorage<number>(KEYS.NUMBER);
-  const [arr, setArr] = useStorage<string[]>(KEYS.ARRAY);
-  const [obj, setObj] = useStorage<Record<string, string>>(KEYS.OBJECT);
+  const [bool, setBoolHook] = useStorage<boolean>(KEYS.BOOL);
+  const [str, setStrHook] = useStorage<string>(KEYS.STRING);
+  const [num, setNumHook] = useStorage<number>(KEYS.NUMBER);
+  const [arr, setArrHook] = useStorage<string[]>(KEYS.ARRAY);
+  const [obj, setObjHook] = useStorage<Record<string, string>>(KEYS.OBJECT);
   const [b, setB] = useState<boolean | null | undefined>(undefined);
   const [s, setS] = useState<string | null | undefined>(undefined);
   const [n, setN] = useState<number | null | undefined>(undefined);
@@ -54,18 +64,25 @@ const App = (): JSX.Element => {
   const onPressDeleteBool = () => {
     remove(KEYS.BOOL);
     setB(undefined);
+    console.log('Removed', KEYS.BOOL);
   };
 
-  const onPressFalse = () => {
-    setBool(false);
+  const onPressFalse = async () => {
+    setBoolHook(false);
+    await setBoolAsync(KEYS.BOOL, false);
+    setBool(KEYS.BOOL, false);
   };
 
-  const onPressTrue = () => {
-    setBool(true);
+  const onPressTrue = async () => {
+    setBoolHook(true);
+    await setBoolAsync(KEYS.BOOL, true);
+    setBool(KEYS.BOOL, true);
   };
 
   const onPressEmptyString = () => {
     remove(KEYS.STRING);
+    setS(undefined);
+    console.log('Removed', KEYS.STRING);
   };
 
   const onPressGetString = async () => {
@@ -75,12 +92,16 @@ const App = (): JSX.Element => {
     console.log('onPressGetString', ss, sss);
   };
 
-  const onPressString = () => {
-    setStr('this is a string');
+  const onPressString = async () => {
+    setStrHook('this is a string');
+    await setStringAsync(KEYS.STRING, 'this is a string');
+    setString(KEYS.STRING, 'this is a string');
   };
 
   const onPressDeleteNumber = () => {
     remove(KEYS.NUMBER);
+    setN(undefined);
+    console.log('Removed', KEYS.NUMBER);
   };
 
   const onPressGetNum = async () => {
@@ -90,16 +111,22 @@ const App = (): JSX.Element => {
     console.log('onPressGetNum', nn, nnn);
   };
 
-  const onPress0 = () => {
-    setNum(0);
+  const onPress0 = async () => {
+    setNumHook(0);
+    await setNumberAsync(KEYS.NUMBER, 0);
+    setNumber(KEYS.NUMBER, 0);
   };
 
-  const onPress1 = () => {
-    setNum(1);
+  const onPress1 = async () => {
+    setNumHook(1);
+    await setNumberAsync(KEYS.NUMBER, 1);
+    setNumber(KEYS.NUMBER, 1);
   };
 
   const onPressDeleteArray = () => {
     remove(KEYS.ARRAY);
+    setA(undefined);
+    console.log('Removed', KEYS.ARRAY);
   };
 
   const onPressGetArray = async () => {
@@ -109,8 +136,11 @@ const App = (): JSX.Element => {
     setA(aa as string[]);
   };
 
-  const onPressSetArray = () => {
-    setArr(['adfg', 'opij', '89uhion', 'o[']);
+  const onPressSetArray = async () => {
+    const x = ['adfg', 'opij', '89uhion', 'ooo'];
+    setArrHook(x);
+    await setArrayAsync(KEYS.ARRAY, x);
+    setArray(KEYS.ARRAY, x);
   };
 
   const onPressGetObject = async () => {
@@ -120,12 +150,17 @@ const App = (): JSX.Element => {
     setO(oo as Record<string, string>);
   };
 
-  const onPressSetObject = () => {
-    setObj({asd: 'asd', lkj: '987'});
+  const onPressSetObject = async () => {
+    const x = {asd: 'asd', lkj: '987'};
+    setObjHook(x);
+    await setObjectAsync(KEYS.OBJECT, x);
+    setObject(KEYS.OBJECT, x);
   };
 
   const onPressDeleteObject = () => {
     remove(KEYS.OBJECT);
+    setO(undefined);
+    console.log('Removed', KEYS.OBJECT);
   };
 
   return (
