@@ -33,11 +33,11 @@ import useStorage, {
 } from './useMMKV';
 
 const KEYS = {
-  BOOL: 'bool',
-  STRING: 'string',
-  ARRAY: 'array',
-  OBJECT: 'object',
-  NUMBER: 'number',
+  BOOL: 'my_bool',
+  STRING: 'my_string',
+  ARRAY: 'my_array',
+  OBJECT: 'my_object',
+  NUMBER: 'my_number',
 };
 
 const App = (): JSX.Element => {
@@ -54,10 +54,15 @@ const App = (): JSX.Element => {
     undefined,
   );
 
-  const onPressGetBool = async () => {
+  const onPressGetBool = () => {
+    const bb = getBool(KEYS.BOOL);
+    console.log('onPressGetBool', bb);
+    setB(bb);
+  };
+
+  const onPressGetBoolAsync = async () => {
     const bb = await getBoolAsync(KEYS.BOOL);
-    const bbb = getBool(KEYS.BOOL);
-    console.log('onPressGetBool', bb, bbb);
+    console.log('onPressGetBoolAsync', bb);
     setB(bb);
   };
 
@@ -85,14 +90,19 @@ const App = (): JSX.Element => {
     console.log('Removed', KEYS.STRING);
   };
 
-  const onPressGetString = async () => {
-    const ss = await getStringAsync(KEYS.STRING);
-    const sss = getString(KEYS.STRING);
+  const onPressGetString = () => {
+    const ss = getString(KEYS.STRING);
     setS(ss);
-    console.log('onPressGetString', ss, sss);
+    console.log('onPressGetString', ss);
   };
 
-  const onPressString = async () => {
+  const onPressGetStringAsync = async () => {
+    const ss = await getStringAsync(KEYS.STRING);
+    setS(ss);
+    console.log('onPressGetStringAsync', ss);
+  };
+
+  const onPressSetString = async () => {
     setStrHook('this is a string');
     await setStringAsync(KEYS.STRING, 'this is a string');
     setString(KEYS.STRING, 'this is a string');
@@ -104,23 +114,22 @@ const App = (): JSX.Element => {
     console.log('Removed', KEYS.NUMBER);
   };
 
-  const onPressGetNum = async () => {
-    const nn = await getNumberAsync(KEYS.NUMBER);
-    const nnn = getNumber(KEYS.NUMBER);
+  const onPressGetNum = () => {
+    const nn = getNumber(KEYS.NUMBER);
     setN(nn);
-    console.log('onPressGetNum', nn, nnn);
+    console.log('onPressGetNum', nn);
   };
 
-  const onPress0 = async () => {
-    setNumHook(0);
-    await setNumberAsync(KEYS.NUMBER, 0);
-    setNumber(KEYS.NUMBER, 0);
+  const onPressGetNumAsync = async () => {
+    const nn = await getNumberAsync(KEYS.NUMBER);
+    setN(nn);
+    console.log('onPressGetNumAsync', nn);
   };
 
-  const onPress1 = async () => {
-    setNumHook(1);
-    await setNumberAsync(KEYS.NUMBER, 1);
-    setNumber(KEYS.NUMBER, 1);
+  const onPressSetNum = async () => {
+    setNumHook(42);
+    await setNumberAsync(KEYS.NUMBER, 42);
+    setNumber(KEYS.NUMBER, 42);
   };
 
   const onPressDeleteArray = () => {
@@ -129,10 +138,15 @@ const App = (): JSX.Element => {
     console.log('Removed', KEYS.ARRAY);
   };
 
-  const onPressGetArray = async () => {
+  const onPressGetArray = () => {
+    const aa = getArray(KEYS.ARRAY);
+    console.log('onPressGetNum', aa);
+    setA(aa as string[]);
+  };
+
+  const onPressGetArrayAsync = async () => {
     const aa = await getArrayAsync(KEYS.ARRAY);
-    const aaa = getArray(KEYS.ARRAY);
-    console.log('onPressGetNum', aa, aaa);
+    console.log('onPressGetNum', aa);
     setA(aa as string[]);
   };
 
@@ -143,10 +157,15 @@ const App = (): JSX.Element => {
     setArray(KEYS.ARRAY, x);
   };
 
-  const onPressGetObject = async () => {
+  const onPressGetObject = () => {
+    const oo = getObject(KEYS.OBJECT);
+    console.log('onPressGetObject', oo);
+    setO(oo as Record<string, string>);
+  };
+
+  const onPressGetObjectAsync = async () => {
     const oo = await getObjectAsync(KEYS.OBJECT);
-    const ooo = getObject(KEYS.OBJECT);
-    console.log('onPressGetObject', oo, ooo);
+    console.log('onPressGetObject', oo);
     setO(oo as Record<string, string>);
   };
 
@@ -164,62 +183,70 @@ const App = (): JSX.Element => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <SafeAreaView>
-        <Text>Bool from hook: {bool ? 'True' : 'False'}</Text>
+    <SafeAreaView>
+      <ScrollView style={styles.container}>
+        <Text>Bool from hook: {JSON.stringify(bool)}</Text>
         <Text>Bool from getBool: {JSON.stringify(b)}</Text>
+        <View style={styles.row}>
+          <Button title="Get bool" onPress={onPressGetBool} />
+          <Button title="Get bool async" onPress={onPressGetBoolAsync} />
+        </View>
+        <View style={styles.row}>
+          <Button title="Set false" onPress={onPressFalse} />
+          <Button title="Set true" onPress={onPressTrue} />
+        </View>
         <View style={styles.space} />
-        <Button title="Get bool" onPress={onPressGetBool} />
-        <View style={styles.space} />
-        <Button title="Set false" onPress={onPressFalse} />
-        <View style={styles.space} />
-        <Button title="Set true" onPress={onPressTrue} />
-        <View style={styles.space} />
-        <Button title="Delete bool" onPress={onPressDeleteBool} />
+        <Button title="Remove bool" onPress={onPressDeleteBool} />
         <View style={styles.divider} />
 
         <Text>String from hook: {str}</Text>
         <Text>String from getString: {s}</Text>
-        <View style={styles.space} />
-        <Button title="Get string" onPress={onPressGetString} />
-        <View style={styles.space} />
-        <Button title="Set string" onPress={onPressString} />
-        <View style={styles.space} />
-        <Button title="Remove string" onPress={onPressEmptyString} />
+        <View style={styles.row}>
+          <Button title="Get string" onPress={onPressGetString} />
+          <Button title="Get string async" onPress={onPressGetStringAsync} />
+        </View>
+        <View style={styles.row}>
+          <Button title="Set string" onPress={onPressSetString} />
+          <Button title="Remove string" onPress={onPressEmptyString} />
+        </View>
         <View style={styles.divider} />
 
         <Text>Number from hook: {num}</Text>
         <Text>Number from getInt: {n}</Text>
-        <View style={styles.space} />
-        <Button title="Get number" onPress={onPressGetNum} />
-        <View style={styles.space} />
-        <Button title="Set 0" onPress={onPress0} />
-        <View style={styles.space} />
-        <Button title="Set 1" onPress={onPress1} />
-        <View style={styles.space} />
-        <Button title="Remove number" onPress={onPressDeleteNumber} />
+        <View style={styles.row}>
+          <Button title="Get number" onPress={onPressGetNum} />
+          <Button title="Get number async" onPress={onPressGetNumAsync} />
+        </View>
+        <View style={styles.row}>
+          <Button title="Set number" onPress={onPressSetNum} />
+          <Button title="Remove number" onPress={onPressDeleteNumber} />
+        </View>
         <View style={styles.divider} />
 
         <Text>Array from hook: {JSON.stringify(arr)}</Text>
         <Text>Array from getArray: {JSON.stringify(a)}</Text>
-        <View style={styles.space} />
-        <Button title="Get array" onPress={onPressGetArray} />
-        <View style={styles.space} />
-        <Button title="Set array" onPress={onPressSetArray} />
-        <View style={styles.space} />
-        <Button title="Remove array" onPress={onPressDeleteArray} />
+        <View style={styles.row}>
+          <Button title="Get array" onPress={onPressGetArray} />
+          <Button title="Get array async" onPress={onPressGetArrayAsync} />
+        </View>
+        <View style={styles.row}>
+          <Button title="Set array" onPress={onPressSetArray} />
+          <Button title="Remove array" onPress={onPressDeleteArray} />
+        </View>
         <View style={styles.divider} />
 
         <Text>Object from hook: {JSON.stringify(obj)}</Text>
         <Text>Object from getMap: {JSON.stringify(o)}</Text>
-        <View style={styles.space} />
-        <Button title="Get object" onPress={onPressGetObject} />
-        <View style={styles.space} />
-        <Button title="Set object" onPress={onPressSetObject} />
-        <View style={styles.space} />
-        <Button title="Remove object" onPress={onPressDeleteObject} />
-      </SafeAreaView>
-    </ScrollView>
+        <View style={styles.row}>
+          <Button title="Get object" onPress={onPressGetObject} />
+          <Button title="Get object async" onPress={onPressGetObjectAsync} />
+        </View>
+        <View style={styles.row}>
+          <Button title="Set object" onPress={onPressSetObject} />
+          <Button title="Remove object" onPress={onPressDeleteObject} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -231,6 +258,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     height: 1,
     marginVertical: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: 10,
   },
   space: {
     height: 10,
