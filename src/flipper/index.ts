@@ -1,6 +1,17 @@
 import {addPlugin} from 'react-native-flipper';
 import type {MMKVInstance} from 'react-native-mmkv-storage';
 
+type Data = {
+  instanceID: string;
+  mode: 'READ' | 'WRITE' | 'DELETE';
+  key: string;
+  type: 'array' | 'boolean' | 'number' | 'object' | 'string';
+  value: unknown;
+  time: string;
+};
+
+type NewValueEvent = {data: Data; newValue: unknown};
+
 export default function mmkvFlipper(mmkv: MMKVInstance) {
   if (__DEV__) {
     addPlugin({
@@ -190,6 +201,27 @@ export default function mmkvFlipper(mmkv: MMKVInstance) {
               });
             });
             //#endregion
+
+            connection.receive(
+              'editValue',
+              (state: NewValueEvent, responder) => {
+                console.log('editValue', state);
+                switch (state.data.type) {
+                  case 'boolean':
+                    mmkv.setBool(state.data.key, state.newValue as boolean);
+                    break;
+                  case 'number':
+                    mmkv.setInt(state.data.key, state.newValue as number);
+                    break;
+                  case 'string':
+                    mmkv.setString(state.data.key, state.newValue as string);
+                    break;
+                  default:
+                    break;
+                }
+                responder.success();
+              },
+            );
           } else {
             connection.send('supportStatus', {
               reason:
