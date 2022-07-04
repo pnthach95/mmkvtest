@@ -184,7 +184,9 @@ const App = (): JSX.Element => {
 
   return (
     <SafeAreaView>
-      <ScrollView style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}>
         <Text>Bool from hook: {JSON.stringify(bool)}</Text>
         <Text>Bool from getBool: {JSON.stringify(b)}</Text>
         <View style={styles.row}>

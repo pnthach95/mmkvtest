@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import {MMKVLoader, useMMKVStorage} from 'react-native-mmkv-storage';
 import mmkvFlipper from './flipper';
 
@@ -7,9 +6,7 @@ const MMKV = new MMKVLoader()
   .withEncryption()
   .initialize();
 
-if (__DEV__) {
-  mmkvFlipper(MMKV);
-}
+mmkvFlipper(MMKV);
 
 const useStorage = <T>(key: string, defaultValue?: T) => {
   const m = useMMKVStorage(key, MMKV, defaultValue);
