@@ -187,8 +187,14 @@ const App = (): JSX.Element => {
       <ScrollView
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}>
-        <Text>Bool from hook: {JSON.stringify(bool)}</Text>
-        <Text>Bool from getBool: {JSON.stringify(b)}</Text>
+        <Text>
+          Bool from hook:{' '}
+          <Text style={styles.highlight}>{JSON.stringify(bool)}</Text>
+        </Text>
+        <Text>
+          Bool from getBool:{' '}
+          <Text style={styles.highlight}>{JSON.stringify(b)}</Text>
+        </Text>
         <View style={styles.row}>
           <Button title="Get bool" onPress={onPressGetBool} />
           <Button title="Get bool async" onPress={onPressGetBoolAsync} />
@@ -201,8 +207,12 @@ const App = (): JSX.Element => {
         <Button title="Remove bool" onPress={onPressDeleteBool} />
         <View style={styles.divider} />
 
-        <Text>String from hook: {str}</Text>
-        <Text>String from getString: {s}</Text>
+        <Text>
+          String from hook: <Text style={styles.highlight}>{str}</Text>
+        </Text>
+        <Text>
+          String from getString: <Text style={styles.highlight}>{s}</Text>
+        </Text>
         <View style={styles.row}>
           <Button title="Get string" onPress={onPressGetString} />
           <Button title="Get string async" onPress={onPressGetStringAsync} />
@@ -213,8 +223,12 @@ const App = (): JSX.Element => {
         </View>
         <View style={styles.divider} />
 
-        <Text>Number from hook: {num}</Text>
-        <Text>Number from getInt: {n}</Text>
+        <Text>
+          Number from hook: <Text style={styles.highlight}>{num}</Text>
+        </Text>
+        <Text>
+          Number from getInt: <Text style={styles.highlight}>{n}</Text>
+        </Text>
         <View style={styles.row}>
           <Button title="Get number" onPress={onPressGetNum} />
           <Button title="Get number async" onPress={onPressGetNumAsync} />
@@ -225,8 +239,14 @@ const App = (): JSX.Element => {
         </View>
         <View style={styles.divider} />
 
-        <Text>Array from hook: {JSON.stringify(arr)}</Text>
-        <Text>Array from getArray: {JSON.stringify(a)}</Text>
+        <Text>
+          Array from hook:{' '}
+          <Text style={styles.highlight}>{JSON.stringify(arr)}</Text>
+        </Text>
+        <Text>
+          Array from getArray:{' '}
+          <Text style={styles.highlight}>{JSON.stringify(a)}</Text>
+        </Text>
         <View style={styles.row}>
           <Button title="Get array" onPress={onPressGetArray} />
           <Button title="Get array async" onPress={onPressGetArrayAsync} />
@@ -237,8 +257,14 @@ const App = (): JSX.Element => {
         </View>
         <View style={styles.divider} />
 
-        <Text>Object from hook: {JSON.stringify(obj)}</Text>
-        <Text>Object from getMap: {JSON.stringify(o)}</Text>
+        <Text>
+          Object from hook:{' '}
+          <Text style={styles.highlight}>{JSON.stringify(obj)}</Text>
+        </Text>
+        <Text>
+          Object from getMap:{' '}
+          <Text style={styles.highlight}>{JSON.stringify(o)}</Text>
+        </Text>
         <View style={styles.row}>
           <Button title="Get object" onPress={onPressGetObject} />
           <Button title="Get object async" onPress={onPressGetObjectAsync} />
@@ -260,6 +286,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     height: 1,
     marginVertical: 10,
+  },
+  highlight: {
+    color: 'red',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   row: {
     flexDirection: 'row',
