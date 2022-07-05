@@ -1,12 +1,14 @@
 import {MMKVLoader, useMMKVStorage} from 'react-native-mmkv-storage';
-import mmkvFlipper from './flipper';
+import mmkvFlipper from 'rn-mmkv-storage-flipper';
 
 const MMKV = new MMKVLoader()
   .withInstanceID('test')
   .withEncryption()
   .initialize();
 
-mmkvFlipper(MMKV);
+if (__DEV__) {
+  mmkvFlipper(MMKV);
+}
 
 const useStorage = <T>(key: string, defaultValue?: T) => {
   const m = useMMKVStorage(key, MMKV, defaultValue);
