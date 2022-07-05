@@ -11,6 +11,7 @@ type Data = {
 };
 
 type NewValueEvent = {data: Data; newValue: unknown};
+type DeleteItemEvent = {data: Data};
 
 export default function mmkvFlipper(mmkv: MMKVInstance) {
   if (__DEV__) {
@@ -206,20 +207,51 @@ export default function mmkvFlipper(mmkv: MMKVInstance) {
               'editValue',
               (state: NewValueEvent, responder) => {
                 console.log('editValue', state);
-                switch (state.data.type) {
-                  case 'boolean':
-                    mmkv.setBool(state.data.key, state.newValue as boolean);
-                    break;
-                  case 'number':
-                    mmkv.setInt(state.data.key, state.newValue as number);
-                    break;
-                  case 'string':
-                    mmkv.setString(state.data.key, state.newValue as string);
-                    break;
-                  default:
-                    break;
+                if (state.data.instanceID === mmkv.instanceID) {
+                  switch (state.data.type) {
+                    case 'boolean':
+                      mmkv.setBool(state.data.key, state.newValue as boolean);
+                      break;
+                    case 'number':
+                      mmkv.setInt(state.data.key, state.newValue as number);
+                      break;
+                    case 'string':
+                      mmkv.setString(state.data.key, state.newValue as string);
+                      break;
+                    case 'array':
+                      mmkv.setArray(
+                        state.data.key,
+                        state.newValue as unknown[],
+                      );
+                      break;
+                    case 'object':
+                      mmkv.setMap(
+                        state.data.key,
+                        state.newValue as Record<string, unknown>,
+                      );
+                      break;
+                    default:
+                      break;
+                  }
+                  responder.success();
+                } else {
+                  responder.error({reason: 'Mismatch instance ID'});
                 }
-                responder.success();
+              },
+            );
+            connection.receive(
+              'deleteItem',
+              (state: DeleteItemEvent, responder) => {
+                if (state.data.instanceID === mmkv.instanceID) {
+                  try {
+                    mmkv.removeItem(state.data.key);
+                  } catch {
+                    //
+                  }
+                  responder.success();
+                } else {
+                  responder.error({reason: 'Mismatch instance ID'});
+                }
               },
             );
           } else {
