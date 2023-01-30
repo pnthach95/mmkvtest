@@ -6,12 +6,22 @@ const MMKV = new MMKVLoader()
   .withEncryption()
   .initialize();
 
+const MMKV2 = new MMKVLoader()
+  .withInstanceID('test2')
+  .withEncryption()
+  .initialize();
+
 if (__DEV__) {
-  mmkvFlipper(MMKV);
+  mmkvFlipper([MMKV, MMKV2]);
 }
 
 const useStorage = <T>(key: string, defaultValue?: T) => {
   const m = useMMKVStorage(key, MMKV, defaultValue);
+  return m;
+};
+
+export const useStorage2 = <T>(key: string, defaultValue?: T) => {
+  const m = useMMKVStorage(key, MMKV2, defaultValue);
   return m;
 };
 
@@ -81,6 +91,42 @@ export const setBoolAsync = async (key: string, value: boolean) => {
 export const setBool = (key: string, value: boolean) => {
   try {
     MMKV.setBool(key, value);
+  } catch (error) {
+    console.log(`${key} error`, error);
+  }
+};
+//#endregion
+
+//#region BOOLEAN
+export const getBoolAsync2 = async (key: string) => {
+  try {
+    const o = await MMKV2.getBoolAsync(key);
+    return o;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const getBool2 = (key: string) => {
+  try {
+    const o = MMKV2.getBool(key);
+    return o;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const setBoolAsync2 = async (key: string, value: boolean) => {
+  try {
+    await MMKV2.setBoolAsync(key, value);
+  } catch (error) {
+    console.log(`${key} error`, error);
+  }
+};
+
+export const setBool2 = (key: string, value: boolean) => {
+  try {
+    MMKV2.setBool(key, value);
   } catch (error) {
     console.log(`${key} error`, error);
   }
@@ -201,6 +247,14 @@ export const setNumber = (key: string, value: number) => {
 export const remove = (key: string) => {
   try {
     MMKV.removeItem(key);
+  } catch (error) {
+    console.log(`remove ${key} error`, error);
+  }
+};
+
+export const remove2 = (key: string) => {
+  try {
+    MMKV2.removeItem(key);
   } catch (error) {
     console.log(`remove ${key} error`, error);
   }

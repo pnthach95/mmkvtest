@@ -12,7 +12,9 @@ import useStorage, {
   getArray,
   getArrayAsync,
   getBool,
+  getBool2,
   getBoolAsync,
+  getBoolAsync2,
   getNumber,
   getNumberAsync,
   getObject,
@@ -20,16 +22,20 @@ import useStorage, {
   getString,
   getStringAsync,
   remove,
+  remove2,
   setArray,
   setArrayAsync,
   setBool,
+  setBool2,
   setBoolAsync,
+  setBoolAsync2,
   setNumber,
   setNumberAsync,
   setObject,
   setObjectAsync,
   setString,
   setStringAsync,
+  useStorage2,
 } from './useMMKV';
 
 const KEYS = {
@@ -41,11 +47,13 @@ const KEYS = {
 };
 
 const App = (): JSX.Element => {
+  const [bool2, setBoolHook2] = useStorage2<boolean>(KEYS.BOOL);
   const [bool, setBoolHook] = useStorage<boolean>(KEYS.BOOL);
   const [str, setStrHook] = useStorage<string>(KEYS.STRING);
   const [num, setNumHook] = useStorage<number>(KEYS.NUMBER);
   const [arr, setArrHook] = useStorage<string[]>(KEYS.ARRAY);
   const [obj, setObjHook] = useStorage<Record<string, string>>(KEYS.OBJECT);
+  const [b2, setB2] = useState<boolean | null | undefined>(undefined);
   const [b, setB] = useState<boolean | null | undefined>(undefined);
   const [s, setS] = useState<string | null | undefined>(undefined);
   const [n, setN] = useState<number | null | undefined>(undefined);
@@ -82,6 +90,36 @@ const App = (): JSX.Element => {
     setBoolHook(true);
     await setBoolAsync(KEYS.BOOL, true);
     setBool(KEYS.BOOL, true);
+  };
+
+  const onPressGetBool2 = () => {
+    const bb = getBool2(KEYS.BOOL);
+    console.log('onPressGetBool2', bb);
+    setB2(bb);
+  };
+
+  const onPressGetBoolAsync2 = async () => {
+    const bb = await getBoolAsync2(KEYS.BOOL);
+    console.log('onPressGetBoolAsync2', bb);
+    setB2(bb);
+  };
+
+  const onPressDeleteBool2 = () => {
+    remove2(KEYS.BOOL);
+    setB2(undefined);
+    console.log('Removed', KEYS.BOOL);
+  };
+
+  const onPressFalse2 = async () => {
+    setBoolHook2(false);
+    await setBoolAsync2(KEYS.BOOL, false);
+    setBool2(KEYS.BOOL, false);
+  };
+
+  const onPressTrue2 = async () => {
+    setBoolHook2(true);
+    await setBoolAsync2(KEYS.BOOL, true);
+    setBool2(KEYS.BOOL, true);
   };
 
   const onPressEmptyString = () => {
@@ -205,6 +243,26 @@ const App = (): JSX.Element => {
         </View>
         <View style={styles.space} />
         <Button title="Remove bool" onPress={onPressDeleteBool} />
+        <View style={styles.divider} />
+
+        <Text>
+          Bool from hook2:{' '}
+          <Text style={styles.highlight}>{JSON.stringify(bool2)}</Text>
+        </Text>
+        <Text>
+          Bool from getBool2:{' '}
+          <Text style={styles.highlight}>{JSON.stringify(b2)}</Text>
+        </Text>
+        <View style={styles.row}>
+          <Button title="Get bool2" onPress={onPressGetBool2} />
+          <Button title="Get bool async2" onPress={onPressGetBoolAsync2} />
+        </View>
+        <View style={styles.row}>
+          <Button title="Set false2" onPress={onPressFalse2} />
+          <Button title="Set true2" onPress={onPressTrue2} />
+        </View>
+        <View style={styles.space} />
+        <Button title="Remove bool2" onPress={onPressDeleteBool2} />
         <View style={styles.divider} />
 
         <Text>

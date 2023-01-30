@@ -5837,10 +5837,10 @@ rimraf@~2.6.2:
   dependencies:
     glob "^7.1.3"
 
-rn-mmkv-storage-flipper@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/rn-mmkv-storage-flipper/-/rn-mmkv-storage-flipper-1.0.0.tgz#db39bae6d06ea5b470ddb33543ba3fc8565225fe"
-  integrity sha512-6EJ/3qOmdi2tEp0EgqK1Ge68tXcqHCdue8uiz0FaSHs45y9+82MYcIpF41/0VlWHXMZ6QQToA2fkwlL8JIM5vA==
+rn-mmkv-storage-flipper@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/rn-mmkv-storage-flipper/-/rn-mmkv-storage-flipper-1.1.0.tgz#cc573c8c430a5c8c6eca2fd7ffeba10994140be6"
+  integrity sha512-JQXPuJWPfy5AW1o8ZHRIz2SDcmH0ApwhKHHchW99KqY6u52teIb1ljwAI6ukk6e7kzx3BFkAhEEAgn3a/6kCfg==
 
 safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"
