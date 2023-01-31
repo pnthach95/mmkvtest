@@ -208,7 +208,7 @@ const App = (): JSX.Element => {
   };
 
   const onPressSetObject = async () => {
-    const x = {asd: 'asd', lkj: '987'};
+    const x = {asd: 'asd', lkj: '987', oo: '"asds:\'pp\'"'};
     setObjHook(x);
     await setObjectAsync(KEYS.OBJECT, x);
     setObject(KEYS.OBJECT, x);
